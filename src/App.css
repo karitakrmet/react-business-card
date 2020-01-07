@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css?family=Bangers|Cuprum|Fredoka+One|Lora:400,400i|Montserrat:400,800|Open+Sans|Oswald:400,600|Raleway&display=swap');
+
+body {
+  padding: 25px;
+}
+.shuffleColors {
+  cursor: pointer;
+  width: 120px;
+  height: 30px;
+  font-family: 'open sans';
+  font-size: 13px;
+}
+
+@keyframes bounce { 
+  0% { transform: translateY(0); }
+  20% { transform: translateY(-5px); }
+  60% { transform: translateY(3px); }
+  100% { transform: translateY(0); }
+}
+
+.bounce {
+  animation: bounce 0.8s;
+}
+
+.textFieldInputs {
+  font-size:13px;
+  padding:7px 7px 7px 4px;
+  display:block;
+  width:300px;
+  border:none;
+  border-bottom:1px solid #757575;
+  margin-top: 7px;
+  font-family: 'Open Sans';
+
+}
+
+input:focus { 
+  outline:none; 
+  border-bottom: 1px solid black;
+}
+
+.textFields {
+  display: flex;
+  flex-direction: column;
+}
+
+

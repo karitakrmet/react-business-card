@@ -15,12 +15,41 @@ function TextField(props) {
 }
 
 const fontCombos = [
-  {primaryFont: 'Montserrat',
-  secondaryFont: 'Lora'},
-  {primaryFont: 'Fredoka One',
-  secondaryFont: 'Raleway'},
-  {primaryFont: 'Bangers',
-  secondaryFont: 'Cuprum'},
+  {
+    primaryFont: 'Montserrat',
+    secondaryFont: 'Lora'
+  },
+  {
+    primaryFont: 'Fredoka One',
+    secondaryFont: 'Raleway'
+  },
+  {
+    primaryFont: 'Bangers',
+    secondaryFont: 'Cuprum'
+  },
+]
+
+const coloredOptions = [
+  {
+    value: 'backgroundColor',
+    label: 'Background color',
+  },
+  {
+    value: 'nameColor',
+    label: 'Name color',
+  },
+  {
+    value: 'specialityColor',
+    label: 'Field or Speciality Color',
+  },
+  {
+    value: 'companyColor',
+    label: 'Company Color',
+  },
+  {
+    value: 'emailColor',
+    label: 'E-mail Address Color',
+  },
 ]
 
 class App extends React.Component {
@@ -33,6 +62,13 @@ class App extends React.Component {
     companyName: '',
     eMail: '',
     fontCombo: '',
+    coloredOption: coloredOptions[0].value,
+    nameColor: '',
+    specialityColor: '',
+    companyColor: '',
+    emailColor: '',
+    backgroundColor: '',
+
   }
 
   async componentDidMount() {
@@ -60,17 +96,28 @@ class App extends React.Component {
   changeFont = fontCombo => {
     this.setState({ fontCombo: fontCombo })
   }
-  
+
+  saveColoredOption = (event) => {
+    this.setState({ coloredOption: event.target.value })
+    //option onChange = salvestab coloredOption
+    //color button onClick = muudab ColoredOptioni elemendi state(this.state.nameColor nt)
+  }
+
+  pickColor = (color, i) => {
+    this.setState({ [this.state.coloredOption]: color });
+  }
+
   render () {
 
     return (
       <div className='sidebar'>
         <div className='colorPalette'>
-          {this.state.colors.map(color => ( 
+          {this.state.colors.map((color, i) => ( 
               <Button 
               color={color}
               width='30px'
               height='30px'
+              pickColor={() => this.pickColor(color, i)}
               />
           ))}
         </div>
@@ -126,13 +173,23 @@ class App extends React.Component {
         />
         </div>
 
+
         <div>
-          <h1 style={{fontFamily:this.state.fontCombo.primaryFont}}>{this.state.fullName.toUpperCase()}</h1>
-          <h2 style={{fontFamily:this.state.fontCombo.secondaryFont}}>{this.state.speciality}</h2>
-          <p style={{fontFamily:this.state.fontCombo.secondaryFont}}>{this.state.companyName}</p>
-          <p style={{fontFamily:this.state.fontCombo.secondaryFont}}>{this.state.eMail}</p>
+          <select value={this.state.coloredOption} onChange={this.saveColoredOption}>
+            {coloredOptions.map(coloredOption => (
+              <option value={coloredOption.value}>{coloredOption.label}</option>
+              ))
+            }
+           
+          </select>
         </div>
         
+        <div className='businessCard'style={{ backgroundColor: this.state.backgroundColor }}>
+          <h1 style={{fontFamily:this.state.fontCombo.primaryFont, color:this.state.nameColor}}>{this.state.fullName.toUpperCase()}</h1>
+          <h2 style={{fontFamily:this.state.fontCombo.secondaryFont, color:this.state.specialityColor}}>{this.state.speciality}</h2>
+          <p style={{fontFamily:this.state.fontCombo.secondaryFont, color:this.state.companyColor}}>{this.state.companyName}</p>
+          <p style={{fontFamily:this.state.fontCombo.secondaryFont, color:this.state.emailColor}}>{this.state.eMail}</p>
+        </div>
 
       </div>
     )

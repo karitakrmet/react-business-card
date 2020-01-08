@@ -1,25 +1,30 @@
 @import url('https://fonts.googleapis.com/css?family=Bangers|Cuprum|Fredoka+One|Lora:400,400i|Montserrat:400,800|Open+Sans|Oswald:400,600|Raleway&display=swap');
-
-body {
-  padding: 25px;
+ 
+* {
+  padding: 0;
+  margin: 0;
 }
-.shuffleColors {
+
+.shuffleColorsButton {
   cursor: pointer;
-  width: 120px;
+  width: 30px;
   height: 30px;
-  font-family: 'open sans';
-  font-size: 13px;
+  margin-left: 30px;
+  border-radius: 2px;
+  border: none;
 }
 
 @keyframes bounce { 
   0% { transform: translateY(0); }
   20% { transform: translateY(-5px); }
+  30% { transform: translateX(-7px); }
   60% { transform: translateY(3px); }
+  70% { transform: translatex(5px); }
   100% { transform: translateY(0); }
 }
 
 .bounce {
-  animation: bounce 0.8s;
+  animation: bounce 1s;
 }
 
 .textFieldInputs {
@@ -42,6 +47,62 @@ input:focus {
 .textFields {
   display: flex;
   flex-direction: column;
+}
+
+
+.companyName {
+  text-transform: capitalize;
+}
+
+.sidebar {
+  background-color: gray;
+  padding: 25px;
+  width: 360px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.colorsShuffle {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.colorBox{
+  border: none;
+  border-radius: 2px;
+}
+
+.changeFont {
+  margin-right: 6px;
+  
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.businessCard {
+  width: 500px;
+  height: 316px;
+  background-color:gray;
+  display: flex;
+  padding: 40px;
+  box-sizing: border-box;
+  justify-content: space-between;
+}
+
+.eMail {
+  display: flex;
+}
+
+.rightBottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-wrap: break-word;
 }
 
 

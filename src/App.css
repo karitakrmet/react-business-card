@@ -1,17 +1,89 @@
-@import url('https://fonts.googleapis.com/css?family=Bangers|Cuprum|Fredoka+One|Lora:400,400i|Montserrat:400,800|Open+Sans|Oswald:400,600|Raleway&display=swap');
- 
+@import url('https://fonts.googleapis.com/css?family=Amaranth|Cutive+Mono|Kreon|Muli|Playfair+Display|Squada+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
+
 * {
   padding: 0;
   margin: 0;
+  font-family: 'Raleway', sans-serif;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  background-color: none;
+  padding: 25px;
+  width: 360px;
+  height: 100vh;
+  font-size: 14px;
+  box-sizing: border-box;
+  box-shadow: 16px 0px 80px -44px rgba(0,0,0,0.88);
+}
+
+.sidebarSubheading {
+  margin: 40px 0 15px;
+  font-size: 18px;
+}
+
+.sidebarSubheading:first-of-type {
+  margin: 30px 0 10px;
+}
+
+.textFields {
+  display: flex;
+  flex-direction: column;
+}
+
+.textFieldInput {
+  font-size:13px;
+  padding:8px 8px 8px 0px;
+  width:300px;
+  border:none;
+  border-bottom:1px solid rgba(0, 0, 0, 0.3)
+}
+
+input:focus { 
+  outline:none; 
+  border-bottom: 1px solid black;
+}
+
+.colorOptionBar {
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 2px;
+  border: 1px solid #D3D3D3;
+  margin-bottom: 10px;
+}
+
+.colorsShuffle {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.colors {
+  flex: 1;
+}
+.colorBox {
+  cursor: pointer;
+  box-shadow: 3px 3px 6px #0000001A;
+  border: none;
+  border-radius: 2px;
+  margin-right: 5px;
 }
 
 .shuffleColorsButton {
   cursor: pointer;
   width: 30px;
   height: 30px;
-  margin-left: 30px;
   border-radius: 2px;
   border: none;
+  background-color: white;
+  box-shadow: 3px 3px 6px #0000001A;
+  box-sizing: border-box;
 }
 
 @keyframes bounce { 
@@ -27,82 +99,87 @@
   animation: bounce 1s;
 }
 
-.textFieldInputs {
-  font-size:13px;
-  padding:7px 7px 7px 4px;
-  display:block;
-  width:300px;
-  border:none;
-  border-bottom:1px solid #757575;
-  margin-top: 7px;
-  font-family: 'Open Sans';
-
+.fontComboButtons input{
+  margin: 7px 0 7px;
 }
 
-input:focus { 
-  outline:none; 
-  border-bottom: 1px solid black;
-}
-
-.textFields {
-  display: flex;
-  flex-direction: column;
-}
-
-
-.companyName {
-  text-transform: capitalize;
-}
-
-.sidebar {
-  background-color: gray;
-  padding: 25px;
-  width: 360px;
-  height: 100vh;
-  box-sizing: border-box;
-}
-
-.colorsShuffle {
-  display: flex;
-  justify-content: space-between;
-
-}
-
-.colorBox{
-  border: none;
-  border-radius: 2px;
-}
-
-.changeFont {
-  margin-right: 6px;
-  
-}
-
-.main {
-  display: flex;
-  flex-direction: row;
-
+.fontComboButtons label {
+  margin-left: 7px;
 }
 
 .businessCard {
-  width: 500px;
-  height: 316px;
-  background-color:gray;
+  width: 700px;
+  height: 440px;
+  box-shadow: 16px 10px 104px -44px rgba(0,0,0,0.88);
   display: flex;
-  padding: 40px;
+  flex-direction: column;
+  padding: 70px 50px;
   box-sizing: border-box;
   justify-content: space-between;
-}
-
-.eMail {
-  display: flex;
+  position: relative;
 }
 
 .rightBottom {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  align-content: flex-end;
+  word-break: break-word;
+  max-width: 50%;
+  align-self: flex-end;
+}
+
+.leftTop {
+  word-break: break-word;
+}
+
+.eMail {
   overflow-wrap: break-word;
+  display: -webkit-box;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.eMail p {
+  margin-top: 2px;
+}
+
+.emailIcon{
+  display: inline-flex;
+  min-width: 20px;
+}
+
+.companyChar {
+  opacity: 0.05;
+  overflow: hidden;
+  position: absolute;
+  font-size: 715px;
+  top: 0;
+  line-height: 302px;
+
+}
+
+
+select.coloOption:hover {
+  background-color: black;
+}
+
+.leftTop h1{
+  font-size: 35px;
+}
+
+.rightBottom p {
+  font-size: 20px;
+  margin: 0;
+
+}
+
+.companyName {
+  text-transform: capitalize;
+  margin-left: 3px;
+}
+
+.leftTop h1:first-of-type {
+  text-transform: capitalize;
 }
 
 

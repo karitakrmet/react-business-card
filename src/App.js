@@ -24,7 +24,7 @@ function EmailIcon(props) {
 
 function ShuffleIcon(props) {
   return(
-    <svg className={props.className} width='25' height='25' viewBox="0 0 20 20">
+    <svg className={props.className} width='20' height='20' viewBox="0 0 20 20">
       <path fill="black" d="M19.305,9.61c-0.235-0.235-0.615-0.235-0.85,0l-1.339,1.339c0.045-0.311,0.073-0.626,0.073-0.949
         c0-3.812-3.09-6.901-6.901-6.901c-2.213,0-4.177,1.045-5.44,2.664l0.897,0.719c1.053-1.356,2.693-2.232,4.543-2.232
         c3.176,0,5.751,2.574,5.751,5.751c0,0.342-0.037,0.675-0.095,1l-1.746-1.39c-0.234-0.235-0.614-0.235-0.849,0
@@ -38,20 +38,35 @@ function ShuffleIcon(props) {
   )
 }
 
+function ShuffleIconLoading(props) {
+  return(
+    <svg className={props.className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="black" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="2" x2="12" y2="6"></line>
+      <line x1="12" y1="18" x2="12" y2="22"></line>
+      <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
+      <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+      <line x1="2" y1="12" x2="6" y2="12"></line>
+      <line x1="18" y1="12" x2="22" y2="12"></line>
+      <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line>
+      <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+    </svg>
+  )
+}
+
 const fontCombos = [
   {
-    primaryFont: 'Montserrat',
-    secondaryFont: 'Lora',
-    fontComboName: 'Classic'
-  },
-  {
-    primaryFont: 'Fredoka One',
-    secondaryFont: 'Raleway',
+    primaryFont: 'Playfair Display',
+    secondaryFont: 'Muli',
     fontComboName: 'Modern'
   },
   {
-    primaryFont: 'Bangers',
-    secondaryFont: 'Cuprum',
+    primaryFont: 'Amaranth',
+    secondaryFont: 'Cutive Mono',
+    fontComboName: 'Classic'
+  },
+  {
+    primaryFont: 'Squada One',
+    secondaryFont: 'Kreon',
     fontComboName: 'Witty'
   },
 ]
@@ -88,14 +103,13 @@ class App extends React.Component {
     speciality: '',
     companyName: '',
     eMail: '',
-    fontCombo: '',
+    fontCombo: fontCombos[0],
     coloredOption: coloredOptions[0].value,
     nameColor: '',
     specialityColor: '',
     companyColor: '',
     emailColor: '',
     backgroundColor: '',
-    isLoading: '',
 // ISLOADING- button disabled
   }
 
@@ -104,6 +118,7 @@ class App extends React.Component {
   }
 
   generatePalette = async() => {
+    this.setState({ isLoading: true })
     this.setState({ bounce: true })
     const url = 'http://www.colr.org/json/colors/random/7';
     const response = await fetch(url);
@@ -112,6 +127,7 @@ class App extends React.Component {
     const repairedColors = fetchedColors
       .filter(colorCode => colorCode.length > 0)
       .map(colorCode => '#' + colorCode);
+    repairedColors.push('#000000', '#FFFFFF')
     this.setState({ colors: repairedColors })
   }
 
@@ -123,6 +139,7 @@ class App extends React.Component {
 
   changeFont = fontCombo => {
     this.setState({ fontCombo: fontCombo })
+    
   }
 
   saveColoredOption = (event) => {
@@ -134,105 +151,128 @@ class App extends React.Component {
   }
 
   render () {
+    console.log(this.state.fontCombo)
 
     return (
       <div className='main'>
         <div className='sidebar'>
+          
+          <h1 style={{fontSize: 23}}>CUSTOM BUSINESS CARD</h1>
 
-          <div className='colorsShuffle'>
-            
-            <div className='colorPalette'>
-              {this.state.colors.map((color, i) => ( 
-                  <Button 
-                  color={color}
-                  width='30px'
-                  height='30px'
-                  pickColor={() => this.pickColor(color, i)}
-                  className='colorBox'
+          <h3 className='sidebarSubheading'>Details</h3>
+
+          <div className='textFields'>
+            <TextField 
+              className='textFieldInput'
+              name="fullName"
+              placeholder='Your Name'
+              value={this.state.fullName}
+              onChange={this.handleChange}
+              />
+            <TextField 
+              className='textFieldInput'
+              name="speciality"
+              placeholder='Field or Speciality'
+              value={this.state.speciality}
+              onChange={this.handleChange}
+              />
+            <TextField 
+              className='textFieldInput'
+              name="companyName"
+              placeholder='Name of the Company'
+              value={this.state.companyName}
+              onChange={this.handleChange}
+              />
+            <TextField 
+              className='textFieldInput'
+              name="eMail"
+              placeholder='E-mail Address'
+              value={this.state.eMail}
+              onChange={this.handleChange}
+              />
+            </div>
+
+            <h3 className='sidebarSubheading'>Color Palette</h3>
+
+            <div>
+              <select className='colorOptionBar'value={this.state.coloredOption} onChange={this.saveColoredOption}>
+                {coloredOptions.map(coloredOption => (
+                  <option value={coloredOption.value}>{coloredOption.label}</option>
+                  ))
+                }
+              
+              </select>
+            </div>
+
+            <div className='colorsShuffle'>
+              
+              <div className='colors'>
+                {this.state.colors.map((color, i) => ( 
+                    <Button 
+                    color={color}
+                    width='30px'
+                    height='30px'
+                    pickColor={() => this.pickColor(color, i)}
+                    className='colorBox'
+                    />
+                ))}
+              </div>
+              <button 
+                className={this.state.bounce ? 'shuffleColorsButton bounce' : 'shuffleColorsButton'}
+                onClick={this.generatePalette}
+                onAnimationEnd={() => this.setState({ bounce: false }) & this.setState({ isLoading: false })}
+              >
+              {this.state.isLoading ? <ShuffleIconLoading className='shuffleIconLoading'/> : <ShuffleIcon className='shuffleIcon'/>}
+              </button>
+
+
+            </div>
+
+            <h3 className='sidebarSubheading'>Fonts</h3>
+
+            <div className='fontComboButtons'>
+              {fontCombos.map((fontCombo, i) => (
+                <div>
+                  <input 
+                    type='radio'
+                    checked={fontCombo.fontComboName === this.state.fontCombo.fontComboName}
+                    id='i'
+                    onClick={() => this.changeFont(fontCombo)}
+                    value={fontCombo.fontComboName}
                   />
+                  <label onClick={() => this.changeFont(fontCombo)} style={{ opacity: fontCombo === this.state.fontCombo ? '1': '0.6' }}>{fontCombo.fontComboName}</label>
+                </div>
+  
               ))}
             </div>
 
-            <button 
-              className={this.state.bounce ? 'shuffleColorsButton bounce' : 'shuffleColorsButton'}
-              onClick={this.generatePalette}
-              onAnimationEnd={() => this.setState({ bounce: false })}
-            >
-            {<ShuffleIcon className='shuffleIcon'/>} 
-            </button>
-
-          </div>
-          
-          <div>
-            {fontCombos.map((fontCombo, i) => (
-              <button 
-                className='changeFont' 
-                onClick={() => this.changeFont(fontCombo)}>
-                {fontCombo.fontComboName}
-              </button>
-
-            ))}
-          </div>
-
-          
-          <div className='textFields'>
-          <TextField 
-            className='textFieldInputs'
-            name="fullName"
-            placeholder='Your Name'
-            value={this.state.fullName}
-            onChange={this.handleChange}
-          />
-          <TextField 
-            className='textFieldInputs'
-            name="speciality"
-            placeholder='Field or Speciality'
-            value={this.state.speciality}
-            onChange={this.handleChange}
-          />
-          <TextField 
-            className='textFieldInputs'
-            name="companyName"
-            placeholder='Name of the Company'
-            value={this.state.companyName}
-            onChange={this.handleChange}
-          />
-          <TextField 
-            className='textFieldInputs'
-            name="eMail"
-            placeholder='E-mail Address'
-            value={this.state.eMail}
-            onChange={this.handleChange}
-          />
-          </div>
-
-
-          <div>
-            <select value={this.state.coloredOption} onChange={this.saveColoredOption}>
-              {coloredOptions.map(coloredOption => (
-                <option value={coloredOption.value}>{coloredOption.label}</option>
-                ))
-              }
-            
-            </select>
-          </div>
           
 
         </div>
+        
+        <div className='rightContainer'>
 
-        <div className='businessCard'style={{ backgroundColor: this.state.backgroundColor }}>
-          <div className='leftRight'>
-            <h1 style={{fontFamily:this.state.fontCombo.primaryFont, color:this.state.nameColor}}>{this.state.fullName.toUpperCase()}</h1>
-            <h2 style={{fontFamily:this.state.fontCombo.secondaryFont, color:this.state.specialityColor}}>{this.state.speciality}</h2>
-          </div>
+        
+          <div className='businessCard'style={{ backgroundColor: this.state.backgroundColor }}>
+
+
+            <h1 className='companyChar' style={{fontFamily:this.state.fontCombo.secondaryFont}}>{this.state.companyName.charAt(0).toUpperCase()}</h1>
+
           
-          <div className='rightBottom'>
-            <p style={{fontFamily:this.state.fontCombo.secondaryFont, color:this.state.companyColor}} className='companyName'>{this.state.companyName}</p>
-            <div className='eMail'>
-              {this.state.eMail ? <EmailIcon className='emailIcon' color={this.state.emailColor}/> : null}
-              <p style={{fontFamily:this.state.fontCombo.secondaryFont, color:this.state.emailColor}}>{this.state.eMail}</p>
+            <div className='leftTop'>
+              <h1 style={{fontFamily:this.state.fontCombo.primaryFont, color:this.state.nameColor}}>{this.state.fullName}</h1>
+              <h2 style={{fontFamily:this.state.fontCombo.secondaryFont, color:this.state.specialityColor}}>{this.state.speciality.toUpperCase()}</h2>
             </div>
-          </div>
+            
+            <div className='rightBottom'>
+              <p style={{fontFamily:this.state.fontCombo.secondaryFont, color:this.state.companyColor}} className='companyName'>{this.state.companyName}</p>
+              <div className='eMail'>
+                {this.state.eMail ? <EmailIcon className='emailIcon' color={this.state.emailColor}/> : null}
+                <p style={{fontFamily:this.state.fontCombo.secondaryFont, color:this.state.emailColor}}>{this.state.eMail}</p>
+              </div>
+            </div>
+        
+        </div>  
 
         </div>
 

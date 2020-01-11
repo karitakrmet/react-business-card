@@ -13,8 +13,8 @@
 
 }
 
-.sidebar {
-  padding: 48px 24px 24px;
+.sidebar-front {
+  padding: 32px;
   width: 360px;
   font-size: 19px;
   box-sizing: border-box;
@@ -44,7 +44,7 @@
 }
 
 .sidebarSubheading {
-  margin: 48px 0 16px;
+  margin: 32px 0 16px;
   font-weight: 700;
 
 }
@@ -203,7 +203,7 @@ input:focus {
   
 }
 
-.businessCard {
+.businessCard-front {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -255,7 +255,7 @@ input:focus {
   }
 }
 @media (max-width: 1200px) {
-  .businessCard {
+  .businessCard-front {
     font-size: 16px;
     padding: 48px 40px;
   }

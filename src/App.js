@@ -24,7 +24,7 @@ function EmailIcon(props) {
 
 function ShuffleIcon(props) {
   return(
-    <svg className={props.className} width='20' height='20' viewBox="0 0 20 20">
+    <svg className={props.className} width='32' height='32' viewBox="0 0 20 20">
       <path fill="black" d="M19.305,9.61c-0.235-0.235-0.615-0.235-0.85,0l-1.339,1.339c0.045-0.311,0.073-0.626,0.073-0.949
         c0-3.812-3.09-6.901-6.901-6.901c-2.213,0-4.177,1.045-5.44,2.664l0.897,0.719c1.053-1.356,2.693-2.232,4.543-2.232
         c3.176,0,5.751,2.574,5.751,5.751c0,0.342-0.037,0.675-0.095,1l-1.746-1.39c-0.234-0.235-0.614-0.235-0.849,0
@@ -40,7 +40,7 @@ function ShuffleIcon(props) {
 
 function ShuffleIconLoading(props) {
   return(
-    <svg className={props.className} xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="black" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <svg className={props.className} xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="black" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="12" y1="2" x2="12" y2="6"></line>
       <line x1="12" y1="18" x2="12" y2="22"></line>
       <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line>
@@ -55,18 +55,18 @@ function ShuffleIconLoading(props) {
 
 const fontCombos = [
   {
+    primaryFont: 'Raleway',
+    secondaryFont: 'Lato',
+    fontComboName: 'Traditional'
+  },
+  {
     primaryFont: 'Playfair Display',
-    secondaryFont: 'Muli',
-    fontComboName: 'Modern'
+    secondaryFont: 'Source Sans Pro',
+    fontComboName: 'Condensed'
   },
   {
-    primaryFont: 'Amaranth',
-    secondaryFont: 'Cutive Mono',
-    fontComboName: 'Classic'
-  },
-  {
-    primaryFont: 'Squada One',
-    secondaryFont: 'Kreon',
+    primaryFont: 'Fascinate',
+    secondaryFont: 'Nobile',
     fontComboName: 'Witty'
   },
 ]
@@ -156,8 +156,6 @@ class App extends React.Component {
     return (
       <div className='main'>
         <div className='sidebar'>
-          
-          <h1 style={{fontSize: 23}}>CUSTOM BUSINESS CARD</h1>
 
           <h3 className='sidebarSubheading'>Details</h3>
 
@@ -210,8 +208,8 @@ class App extends React.Component {
                 {this.state.colors.map((color, i) => ( 
                     <Button 
                     color={color}
-                    width='30px'
-                    height='30px'
+                    width='48px'
+                    height='48px'
                     pickColor={() => this.pickColor(color, i)}
                     className='colorBox'
                     />
@@ -230,13 +228,14 @@ class App extends React.Component {
 
             <h3 className='sidebarSubheading'>Fonts</h3>
 
-            <div className='fontComboButtons'>
+            <div>
               {fontCombos.map((fontCombo, i) => (
-                <div>
+                <div className='fontComboButtons'>
                   <input 
                     type='radio'
                     checked={fontCombo.fontComboName === this.state.fontCombo.fontComboName}
                     id='i'
+                    className='radioButton'
                     onClick={() => this.changeFont(fontCombo)}
                     value={fontCombo.fontComboName}
                   />
@@ -249,14 +248,15 @@ class App extends React.Component {
           
 
         </div>
-        
-        <div className='rightContainer'>
 
-        
-          <div className='businessCard'style={{ backgroundColor: this.state.backgroundColor }}>
+
+        <div className='rightContainer'>
 
 
             <h1 className='companyChar' style={{fontFamily:this.state.fontCombo.secondaryFont}}>{this.state.companyName.charAt(0).toUpperCase()}</h1>
+        
+          <div className='businessCard'style={{ backgroundColor: this.state.backgroundColor }}>
+
 
           
             <div className='leftTop'>
@@ -275,6 +275,14 @@ class App extends React.Component {
         </div>  
 
         </div>
+
+        
+
+
+
+        
+
+
 
     </div>
     )

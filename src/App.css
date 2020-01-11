@@ -9,20 +9,38 @@
   display: flex;
   flex-direction: row;
   background-color:#FAFAFC;
+  height: 100vh;
 
 }
 
 .sidebar {
-  padding: 56px 24px 0px;
+  padding: 48px 24px 24px;
   width: 360px;
-  height: 100vh;
   font-size: 19px;
   box-sizing: border-box;
   box-shadow: 5px 0px 30px #0000001A;
   font-family: 'Lato';
   letter-spacing: 2px;
   font-weight: 300;
+  background-color: white;
+  overflow-y: auto;
   
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track { 
+  background: #F0F0F0
+}
+::-webkit-scrollbar-thumb {
+/*  box-shadow: inset 0 0 3px white;*/
+  background: rgb(209, 209, 209); 
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B0B0B0
 }
 
 .sidebarSubheading {
@@ -106,11 +124,10 @@ input:focus {
 }
 
 .fontComboButtons {
-    position: relative;
-    display: flex;
-    align-items: center;
-
-
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .fontComboButtons input{
@@ -118,16 +135,34 @@ input:focus {
   margin: 8px 0 8px;
   width: 32px;
   height: 32px;
-  color: red;
 }
 
 
-.fontComboButtons label {
+.fontComboButtons span {
   cursor: pointer;
   margin-left: 8px;
 }
 
-.fontComboButtons label:hover {
+.fontComboButtons input[type=radio]{
+  visibility: hidden;
+}
+
+.check{
+  border: 3px solid #AAAAAA;
+  border-radius: 100%;
+  height: 16px;
+  width: 16px;
+  transition: background 0.25s linear;
+  cursor: pointer;
+  position:relative;
+}
+
+.fontComboButtons input[type=radio]:checked ~ .check {
+  background: black;
+  border: 3px solid black;
+}
+
+.fontComboButtons span:hover {
   opacity: 1 !important;
 }
 
@@ -160,10 +195,11 @@ input:focus {
   /* 100/56.25 = 1.778 */
   max-height: 50vh;
   max-width: 88.89vh;
+  min-height: 250px;
+  min-width: 400px;
   /* 16/9 = 1.778 */
   opacity: 0.05;
-  line-height: 0.65;
-  z-index: 1;
+  line-height: 0.5;
   
 }
 
@@ -173,12 +209,14 @@ input:focus {
   bottom: 0;
   right: 0;
   left: 0;
+  border-radius: 4px;
   display: flex;
   justify-content: space-between;
   padding: 4.5vw 3.5vw;
   box-shadow: 16px 10px 104px -44px rgba(0,0,0,0.88);
   box-sizing: border-box;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .leftTop {
@@ -208,14 +246,14 @@ input:focus {
   text-transform: capitalize;
   text-align: end;
 }
-/*
-@media (min-width: 2500px) {
-  .businessCard {
-    font-size: 22px;
-  }
-  
-}*/
 
+@media (max-width: 830px) {
+  .companyChar {
+    font-size: 345px;
+
+
+  }
+}
 @media (max-width: 1200px) {
   .businessCard {
     font-size: 16px;
@@ -223,11 +261,5 @@ input:focus {
   }
   .leftTop h1 {
     font-size: 40px;
-  }
-}
-
-@media (max-width: 800px) {
-  .companyChar {
-    font-size: 320px;
   }
 }

@@ -230,17 +230,21 @@ class App extends React.Component {
 
             <div>
               {fontCombos.map((fontCombo, i) => (
-                <div className='fontComboButtons'>
-                  <input 
-                    type='radio'
-                    checked={fontCombo.fontComboName === this.state.fontCombo.fontComboName}
-                    id='i'
-                    className='radioButton'
-                    onClick={() => this.changeFont(fontCombo)}
-                    value={fontCombo.fontComboName}
-                  />
-                  <label onClick={() => this.changeFont(fontCombo)} style={{ opacity: fontCombo === this.state.fontCombo ? '1': '0.6' }}>{fontCombo.fontComboName}</label>
-                </div>
+
+
+                        <div className='fontComboButtons'>
+                          <input 
+                            name="group1" 
+                            type="radio" 
+                            id={i}
+                            value={fontCombo.fontComboName}
+                            checked={fontCombo.fontComboName === this.state.fontCombo.fontComboName}
+                          />
+                          <span onClick={() => this.changeFont(fontCombo)} style={{ opacity: fontCombo === this.state.fontCombo ? '1': '0.6' }}>{fontCombo.fontComboName}</span>
+                        
+                          <div class="check" onClick={() => this.changeFont(fontCombo)} ></div>
+
+                        </div>
   
               ))}
             </div>
@@ -250,13 +254,14 @@ class App extends React.Component {
         </div>
 
 
+
         <div className='rightContainer'>
 
 
-            <h1 className='companyChar' style={{fontFamily:this.state.fontCombo.secondaryFont}}>{this.state.companyName.charAt(0).toUpperCase()}</h1>
         
           <div className='businessCard'style={{ backgroundColor: this.state.backgroundColor }}>
 
+            <h1 className='companyChar' style={{fontFamily: fontCombos[1].primaryFont}}>{this.state.companyName.charAt(0).toUpperCase()}</h1>
 
           
             <div className='leftTop'>
@@ -291,3 +296,16 @@ class App extends React.Component {
 
 
 export default App;
+
+/*                 <div className='fontComboButtons'>
+                  <input 
+                    type='radio'
+                    checked={fontCombo.fontComboName === this.state.fontCombo.fontComboName}
+                    id='i'
+                    className='radioButton'
+                    onClick={() => this.changeFont(fontCombo)}
+                    value={fontCombo.fontComboName}
+                  />
+                  <label onClick={() => this.changeFont(fontCombo)} style={{ opacity: fontCombo === this.state.fontCombo ? '1': '0.6' }}>{fontCombo.fontComboName}</label>
+                </div>
+                */

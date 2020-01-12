@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import ColorPaletteOption from "./components/ColorPaletteOption";
 import Colors from "./components/Colors";
+import FontComboButton from "./components/FontComboButton";
 
 
 function TextField(props) {
@@ -74,8 +75,8 @@ class App extends React.Component {
     specialityColor: "",
     companyColor: "",
     emailColor: "",
-    backgroundColor: ""
-    // ISLOADING- button disabled
+    backgroundColor: "",
+    flipped: false,
   };
 
   async componentDidMount() {
@@ -109,6 +110,10 @@ class App extends React.Component {
   pickColor = (color, i) => {
     this.setState({ [this.state.coloredOption]: color });
   };
+
+  flipCard = () => {
+    this.setState({ flipped: !this.state.flipped })
+  }
 
   render() {
     console.log(this.state.fontCombo);
@@ -172,31 +177,12 @@ class App extends React.Component {
 
             <div>
               {fontCombos.map((fontCombo, i) => (
-                <div className="fontComboButtons">
-                  <input
-                    name="group1"
-                    type="radio"
-                    id={i}
-                    value={fontCombo.fontComboName}
-                    checked={
-                      fontCombo.fontComboName ===
-                      this.state.fontCombo.fontComboName
-                    }
-                  />
-                  <span
-                    onClick={() => this.changeFont(fontCombo)}
-                    style={{
-                      opacity: fontCombo === this.state.fontCombo ? "1" : "0.6"
-                    }}
-                  >
-                    {fontCombo.fontComboName}
-                  </span>
+                <FontComboButton 
+                fontComboName={fontCombo.fontComboName}
+                checked={fontCombo.fontComboName === this.state.fontCombo.fontComboName}
+                changeFont={() => this.changeFont(fontCombo)}
 
-                  <div
-                    class="check"
-                    onClick={() => this.changeFont(fontCombo)}
-                  />
-                </div>
+                />
               ))}
             </div>
           </div>
@@ -206,7 +192,8 @@ class App extends React.Component {
         <div className="rightContainer">
           <div className="businessCard-inner">
             <div
-              className="businessCard-front"
+              className={this.state.flipped ? "businessCard-front cardFlip" : "businessCard-front"}
+              onClick={this.flipCard}
               style={{ backgroundColor: this.state.backgroundColor }}
             >
               <h1

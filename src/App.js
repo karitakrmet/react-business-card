@@ -78,7 +78,9 @@ class App extends React.Component {
     backgroundColor: "",
     flipped: false,
     companyURL: "",
-    hasError: false,
+    hasError:false,
+    //companyURL2: "",
+    //companyName2: "",
   };
 
   
@@ -86,6 +88,7 @@ class App extends React.Component {
   async componentDidMount() {
     this.generatePalette();
   }
+
 
   generatePalette = async () => {
     this.setState({ isLoading: true });
@@ -102,6 +105,10 @@ class App extends React.Component {
   };
 
   handleChange = e => {
+    if (e.target.name === 'companyURL') {
+      this.setState({ hasError: false })
+    }
+
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -120,10 +127,37 @@ class App extends React.Component {
     console.log(this.state.flipped)
   }
 
+  onError = () => {
+      this.setState({ hasError: true })
+    console.log(this.state.hasError)    
+  }
+/* GIVES ERROR- first data undefined
+  generateLogo = async () => {
+    const url = "https://autocomplete.clearbit.com/v1/companies/suggest?query=" + this.state.companyName;
+    const response = await fetch(url);
+    const data = await response.json();
+
+ 
+      let nameList = data.map(dataObject => {
+       return dataObject.name
+      })
+    
+    
+    console.log(this.nameList)
+ 
+
+  };
+  */
+
+  inputLogo = e => {
+    this.handleChange(e);
+    this.generateLogo();
+  }
   
   render() {
     
     const companyURL = "//logo.clearbit.com/" + this.state.companyURL
+
 
     return (
       <div className="main">
@@ -151,7 +185,7 @@ class App extends React.Component {
                 name="companyName"
                 placeholder="Name of the Company"
                 value={this.state.companyName}
-                onChange={this.handleChange}
+                onChange={this.inputLogo}
               />
               <TextField
                 className="textFieldInput"
@@ -188,7 +222,7 @@ class App extends React.Component {
                 fontComboName={fontCombo.fontComboName}
                 checked={fontCombo.fontComboName === this.state.fontCombo.fontComboName}
                 changeFont={() => this.changeFont(fontCombo)}
-
+                i={i}
                 />
               ))}
             </div>
@@ -269,7 +303,13 @@ class App extends React.Component {
               </div>
               <div className="businessCardBack">
                 <div className="companyDiv">
-                  {this.state.companyURL ? <img src={companyURL} className="companyLogo"/> : null}
+                {this.state.companyURL ? 
+                <img 
+                  src={companyURL} 
+                  onError={this.onError} 
+                  className="companyLogo" 
+                  style={{display: this.state.hasError ? "none" : "" }}
+                /> : null}
                 </div>
               </div>
             </div>

@@ -16,7 +16,7 @@ export default function FontComboButton(props) {
       </span>
 
       <div
-        class="check"
+        className="check"
         onClick={props.changeFont}
       />
     </div>

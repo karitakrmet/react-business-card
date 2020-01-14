@@ -10,8 +10,8 @@ export default function ColorPaletteOption(props) {
         onChange={props.handleChange}
         name={props.name}
       >
-        {props.coloredOptions.map(coloredOption => (
-          <option value={coloredOption.value}>{coloredOption.label}</option>
+        {props.coloredOptions.map((coloredOption, i) => (
+          <option value={coloredOption.value} key={i}>{coloredOption.label}</option>
         ))}
       </select>
     </React.Fragment>

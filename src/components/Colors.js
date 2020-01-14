@@ -44,9 +44,9 @@ function ShuffleIconLoading(props) {
       viewBox="0 0 24 24"
       fill="black"
       stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     >
       <line x1="12" y1="2" x2="12" y2="6" />
       <line x1="12" y1="18" x2="12" y2="22" />
@@ -68,6 +68,7 @@ export default function Colors(props) {
         {props.colors.map((color, i) => (
           <Button
             color={color}
+            key={i}
             width='48px'
             height='48px'
             pickColor={() => props.pickColor(color, i)}

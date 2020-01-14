@@ -77,7 +77,11 @@ class App extends React.Component {
     emailColor: "",
     backgroundColor: "",
     flipped: false,
+    companyURL: "",
+    hasError: false,
   };
+
+  
 
   async componentDidMount() {
     this.generatePalette();
@@ -111,17 +115,20 @@ class App extends React.Component {
     this.setState({ [this.state.coloredOption]: color });
   };
 
-  flipCard = () => {
+  flipped = () => {
     this.setState({ flipped: !this.state.flipped })
+    console.log(this.state.flipped)
   }
 
+  
   render() {
-    console.log(this.state.fontCombo);
+    
+    const companyURL = "//logo.clearbit.com/" + this.state.companyURL
 
     return (
       <div className="main">
         <div className="sidebar-inner">
-          <div className="sidebar-front">
+          <div className={this.state.flipped ? "sidebar hidden" : "sidebar"}>
             <h3 className="sidebarSubheading">Details</h3>
 
             <div className="textFields">
@@ -186,72 +193,87 @@ class App extends React.Component {
               ))}
             </div>
           </div>
-          <div className="sidebar-back" />
+          <div className={this.state.flipped ? "sidebar" : "sidebar hidden"}>
+            <div>
+              <h2 className="sidebarSubheading">Logo</h2>
+            <input 
+                className="textFieldInput"
+                name="companyURL"
+                placeholder="Company Website"
+                type="text"
+                value={this.state.companyURL}
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="rightContainer">
-          <div className="businessCard-inner">
-            <div
-              className={this.state.flipped ? "businessCard-front cardFlip" : "businessCard-front"}
-              onClick={this.flipCard}
-              style={{ backgroundColor: this.state.backgroundColor }}
-            >
+
+          <div className={this.state.flipped ? 'businessCard flipped' : 'businessCard'} onClick={this.flipped}>
+            <div className="businessCardInner">
+              <div className="businessCardFront" style={{backgroundColor: this.state.backgroundColor}}>
               <h1
-                className="companyChar"
-                style={{ fontFamily: fontCombos[1].primaryFont }}
-              >
-                {this.state.companyName.charAt(0).toUpperCase()}
-              </h1>
-
-              <div className="leftTop">
-                <h1
-                  style={{
-                    fontFamily: this.state.fontCombo.primaryFont,
-                    color: this.state.nameColor
-                  }}
+                  className="companyChar"
+                  style={{ fontFamily: fontCombos[1].primaryFont }}
                 >
-                  {this.state.fullName}
+                  {this.state.companyName.charAt(0).toUpperCase()}
                 </h1>
-                <h2
-                  style={{
-                    fontFamily: this.state.fontCombo.secondaryFont,
-                    color: this.state.specialityColor
-                  }}
-                >
-                  {this.state.speciality.toUpperCase()}
-                </h2>
-              </div>
 
-              <div className="rightBottom">
-                <p
-                  style={{
-                    fontFamily: this.state.fontCombo.secondaryFont,
-                    color: this.state.companyColor
-                  }}
-                  className="companyName"
-                >
-                  {this.state.companyName}
-                </p>
-                <div className="eMail">
-                  {this.state.eMail ? (
-                    <EmailIcon
-                      className="emailIcon"
-                      color={this.state.emailColor}
-                    />
-                  ) : null}
+                <div className="leftTop">
+                  <h1
+                    style={{
+                      fontFamily: this.state.fontCombo.primaryFont,
+                      color: this.state.nameColor
+                    }}
+                  >
+                    {this.state.fullName}
+                  </h1>
+                  <h2
+                    style={{
+                      fontFamily: this.state.fontCombo.secondaryFont,
+                      color: this.state.specialityColor
+                    }}
+                  >
+                    {this.state.speciality.toUpperCase()}
+                  </h2>
+                </div>
+
+                <div className="rightBottom">
                   <p
                     style={{
                       fontFamily: this.state.fontCombo.secondaryFont,
-                      color: this.state.emailColor
+                      color: this.state.companyColor
                     }}
+                    className="companyName"
                   >
-                    {this.state.eMail}
+                    {this.state.companyName}
                   </p>
+                  <div className="eMail">
+                    {this.state.eMail ? (
+                      <EmailIcon
+                        className="emailIcon"
+                        color={this.state.emailColor}
+                      />
+                    ) : null}
+                    <p
+                      style={{
+                        fontFamily: this.state.fontCombo.secondaryFont,
+                        color: this.state.emailColor
+                      }}
+                    >
+                      {this.state.eMail}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="businessCardBack">
+                <div className="companyDiv">
+                  {this.state.companyURL ? <img src={companyURL} className="companyLogo"/> : null}
                 </div>
               </div>
             </div>
-            <div className="businessCard-back" />
-          </div>
+          </div>         
         </div>
       </div>
     );
@@ -259,3 +281,5 @@ class App extends React.Component {
 }
 
 export default App;
+
+//<img ref={img => this.img = img} onError={ () => this.img.src = '//logo.clearbit.com/facebook.com'} src={companyURL} className="companyLogo"/> : null}

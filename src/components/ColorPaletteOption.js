@@ -3,7 +3,7 @@ import React from 'react';
 export default function ColorPaletteOption(props) {
   return (
     <React.Fragment>
-      <h3 className='sidebarSubheading'>Color Palette</h3>
+      <h2>Color Palette</h2>
       <select
         className='colorOptionBar'
         value={props.selectedColoredOption}

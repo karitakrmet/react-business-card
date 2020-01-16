@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Fascinate|Lato:300,700|Nobile|Playfair+Display:400,900|Raleway:800i|Source+Sans+Pro:200&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Fascinate|Lato:100i,300,700|Nobile|Playfair+Display:400,900|Raleway:800i|Source+Sans+Pro:200&display=swap');
 
 * {
   padding: 0;
@@ -25,7 +25,6 @@
   font-weight: 300;
   background-color: white;
   overflow-y: auto;
-  
 }
 
 ::-webkit-scrollbar {
@@ -41,13 +40,20 @@
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #B0B0B0
+  background: #B0B0B0;
 }
 
-.sidebarSubheading {
+.sidebar h2 {
   margin: 32px 0 16px;
   font-weight: 700;
+  font-size: 19px;
+}
 
+.sidebar h3 {
+  font-size: 14px;
+  margin-top: 4px;
+  font-style: italic;
+  opacity: 0.6;
 }
 
 .textFields {
@@ -92,6 +98,7 @@ input:focus {
 .colors {
   flex: 1;
 }
+
 .colorBox {
   cursor: pointer;
   box-shadow: 3px 3px 6px #0000001A;
@@ -170,6 +177,10 @@ input:focus {
 
 .fontComboButtons span:hover {
   opacity: 1 !important;
+}
+
+.logoPalette {
+  margin-top: 16px;
 }
 
 .rightContainer {

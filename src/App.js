@@ -3,6 +3,8 @@ import "./App.css";
 import ColorPaletteOption from "./components/ColorPaletteOption";
 import Colors from "./components/Colors";
 import FontComboButton from "./components/FontComboButton";
+import Button from "./components/Button";
+import ColorThief from 'colorthief'
 
 
 function TextField(props) {
@@ -15,7 +17,7 @@ function EmailIcon(props) {
       <path
         fill={props.color}
         d="M17.388,4.751H2.613c-0.213,0-0.389,0.175-0.389,0.389v9.72c0,0.216,0.175,0.389,0.389,0.389h14.775c0.214,0,0.389-0.173,0.389-0.389v-9.72C17.776,4.926,17.602,4.751,17.388,4.751 M16.448,5.53L10,11.984L3.552,5.53H16.448zM3.002,6.081l3.921,3.925l-3.921,3.925V6.081z M3.56,14.471l3.914-3.916l2.253,2.253c0.153,0.153,0.395,0.153,0.548,0l2.253-2.253l3.913,3.916H3.56z M16.999,13.931l-3.921-3.925l3.921-3.925V13.931z"
-        />
+      />
     </svg>
   );
 }
@@ -78,17 +80,14 @@ class App extends React.Component {
     backgroundColor: "",
     flipped: false,
     companyURL: "",
-    hasError:false,
-    //companyURL2: "",
-    //companyName2: "",
+    hasError: false,
+    backsideBackground: "",
+    palette: [],
   };
-
-  
 
   async componentDidMount() {
     this.generatePalette();
   }
-
 
   generatePalette = async () => {
     this.setState({ isLoading: true });
@@ -104,8 +103,28 @@ class App extends React.Component {
     this.setState({ colors: repairedColors });
   };
 
+  getDominantColors = () => {
+    const colorThief = new ColorThief();
+    const img = new Image();
+
+    img.crossOrigin = 'Anonymous';
+    img.src = ('https://logo.clearbit.com/' + this.state.companyURL);
+
+    img.addEventListener('load', () => {
+      let palette = colorThief.getPalette(img, 3, 1);
+      palette.push([0, 0, 0], [255, 255, 255])
+      //RGBA ?
+      const repairedPalette = palette.map(color => {
+        return `rgb(${color})`
+      })
+      this.setState({ palette: repairedPalette});
+    });
+    
+  }
+
   handleChange = e => {
     if (e.target.name === 'companyURL') {
+      this.getDominantColors();
       this.setState({ hasError: false })
     }
 
@@ -122,48 +141,28 @@ class App extends React.Component {
     this.setState({ [this.state.coloredOption]: color });
   };
 
+  logoPickColor = (color, i) => {
+    this.setState({ backsideBackground: color });
+  };
+
   flipped = () => {
     this.setState({ flipped: !this.state.flipped })
-    console.log(this.state.flipped)
-  }
+  };
 
   onError = () => {
-      this.setState({ hasError: true })
-    console.log(this.state.hasError)    
+    this.setState({ hasError: true })
   }
-/* GIVES ERROR- first data undefined
-  generateLogo = async () => {
-    const url = "https://autocomplete.clearbit.com/v1/companies/suggest?query=" + this.state.companyName;
-    const response = await fetch(url);
-    const data = await response.json();
 
- 
-      let nameList = data.map(dataObject => {
-       return dataObject.name
-      })
-    
-    
-    console.log(this.nameList)
- 
-
-  };
-  */
-
-  inputLogo = e => {
-    this.handleChange(e);
-    this.generateLogo();
-  }
-  
-  render() {
-    
-    const companyURL = "//logo.clearbit.com/" + this.state.companyURL
+   render() {
+     
+     const companyURL = "//logo.clearbit.com/" + this.state.companyURL
 
 
     return (
       <div className="main">
         <div className="sidebar-inner">
           <div className={this.state.flipped ? "sidebar hidden" : "sidebar"}>
-            <h3 className="sidebarSubheading">Details</h3>
+            <h2>Details</h2>
 
             <div className="textFields">
               <TextField
@@ -185,7 +184,7 @@ class App extends React.Component {
                 name="companyName"
                 placeholder="Name of the Company"
                 value={this.state.companyName}
-                onChange={this.inputLogo}
+                onChange={this.handleChange}
               />
               <TextField
                 className="textFieldInput"
@@ -204,40 +203,54 @@ class App extends React.Component {
               name="coloredOption"
             />
 
-            <Colors 
+            <Colors
               colors={this.state.colors}
               pickColor={this.pickColor}
               bounce={this.state.bounce}
-              // Delete isLoading
-              isLoading={this.state.isLoading}
               onAnimationEnd={() => this.setState({ bounce: false })}
               generatePalette={this.generatePalette}
             />
 
-            <h3 className="sidebarSubheading">Fonts</h3>
+            <h2>Fonts</h2>
 
             <div>
               {fontCombos.map((fontCombo, i) => (
-                <FontComboButton 
-                fontComboName={fontCombo.fontComboName}
-                checked={fontCombo.fontComboName === this.state.fontCombo.fontComboName}
-                changeFont={() => this.changeFont(fontCombo)}
-                i={i}
+                <FontComboButton
+                  fontComboName={fontCombo.fontComboName}
+                  checked={fontCombo.fontComboName === this.state.fontCombo.fontComboName}
+                  changeFont={() => this.changeFont(fontCombo)}
+                  key={i}
                 />
               ))}
             </div>
           </div>
           <div className={this.state.flipped ? "sidebar" : "sidebar hidden"}>
             <div>
-              <h2 className="sidebarSubheading">Logo</h2>
-            <input 
+              <h2>Logo</h2>
+              <input
                 className="textFieldInput"
                 name="companyURL"
                 placeholder="Company Website"
                 type="text"
                 value={this.state.companyURL}
                 onChange={this.handleChange}
+                
               />
+              <div>
+              <h3>Example: facebook.com</h3>
+              <div className="logoPalette">
+                {this.state.palette.map((color, i) => (
+                    <Button 
+                      color={color}
+                      key={i}
+                      width="48px"
+                      height="48px"
+                      pickColor={() => this.logoPickColor(color)}
+                      className="colorBox"
+                    />
+                  ))}
+              </div>
+              </div>
             </div>
           </div>
         </div>
@@ -246,8 +259,8 @@ class App extends React.Component {
 
           <div className={this.state.flipped ? 'businessCard flipped' : 'businessCard'} onClick={this.flipped}>
             <div className="businessCardInner">
-              <div className="businessCardFront" style={{backgroundColor: this.state.backgroundColor}}>
-              <h1
+              <div className="businessCardFront" style={{ backgroundColor: this.state.backgroundColor }}>
+                <h1
                   className="companyChar"
                   style={{ fontFamily: fontCombos[1].primaryFont }}
                 >
@@ -301,19 +314,20 @@ class App extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="businessCardBack">
+              <div className="businessCardBack" style={{ background: this.state.backsideBackground }}>
                 <div className="companyDiv">
-                {this.state.companyURL ? 
-                <img 
-                  src={companyURL} 
-                  onError={this.onError} 
-                  className="companyLogo" 
-                  style={{display: this.state.hasError ? "none" : "" }}
-                /> : null}
+                  {this.state.companyURL ?
+                    <img
+                      src={companyURL}
+                      alt="Logo of the Company"
+                      onError={this.onError}
+                      className="companyLogo"
+                      style={{ display: this.state.hasError ? "none" : "" }}
+                    /> : null}
                 </div>
               </div>
             </div>
-          </div>         
+          </div>
         </div>
       </div>
     );

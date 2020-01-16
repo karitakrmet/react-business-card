@@ -5,7 +5,7 @@ export default function FontComboButton(props) {
     <div className="fontComboButtons">
       <input
         type="radio"
-        id={props.i}
+        
         value={props.fontComboName}
         checked={props.checked}
       />

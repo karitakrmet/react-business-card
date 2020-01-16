@@ -81,7 +81,7 @@ export default function Colors(props) {
         onClick={props.generatePalette}
         onAnimationEnd={props.onAnimationEnd}
       >
-        {props.isLoading ? <ShuffleIconLoading className='shuffleIconLoading' /> : <ShuffleIcon className='shuffleIcon' />}
+        {props.bounce ? <ShuffleIconLoading className='shuffleIconLoading' /> : <ShuffleIcon className='shuffleIcon' />}
       </button>
     </div>
   );

@@ -126,6 +126,7 @@ class App extends React.Component {
   handleChange = e => {
     if (e.target.name === 'companyURL') {
       this.setState({ hasError: false })
+    }
 
     this.setState({
       [e.target.name]: e.target.value

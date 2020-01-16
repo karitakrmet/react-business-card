@@ -81,6 +81,7 @@ class App extends React.Component {
     flipped: false,
     companyURL: "",
     hasError: false,
+    submitURL: "",
     backsideBackground: "",
     palette: [],
   };
@@ -98,10 +99,10 @@ class App extends React.Component {
     const fetchedColors = data.matching_colors;
     const repairedColors = fetchedColors
       .filter(colorCode => colorCode.length > 0)
-      .map(colorCode => "#" + colorCode);
+      .map(colorCode => "#" + colorCode)
     repairedColors.push("#000000", "#FFFFFF");
     this.setState({ colors: repairedColors });
-  };
+  }
 
   getDominantColors = () => {
     const colorThief = new ColorThief();
@@ -117,16 +118,14 @@ class App extends React.Component {
       const repairedPalette = palette.map(color => {
         return `rgb(${color})`
       })
-      this.setState({ palette: repairedPalette});
+      this.setState({ palette: repairedPalette });
     });
-    
+
   }
 
   handleChange = e => {
     if (e.target.name === 'companyURL') {
-      this.getDominantColors();
       this.setState({ hasError: false })
-    }
 
     this.setState({
       [e.target.name]: e.target.value
@@ -153,9 +152,14 @@ class App extends React.Component {
     this.setState({ hasError: true })
   }
 
-   render() {
-     
-     const companyURL = "//logo.clearbit.com/" + this.state.companyURL
+  submitURL = () => {
+    this.setState({ submitURL: this.state.companyURL })
+    this.getDominantColors();
+  }
+
+  render() {
+
+    const submitURL = "//logo.clearbit.com/" + this.state.submitURL
 
 
     return (
@@ -234,22 +238,47 @@ class App extends React.Component {
                 type="text"
                 value={this.state.companyURL}
                 onChange={this.handleChange}
-                
+
               />
+
+              <button
+                onClick={this.submitURL}
+              >
+                Submit
+              </button>
+
               <div>
-              <h3>Example: facebook.com</h3>
-              <div className="logoPalette">
-                {this.state.palette.map((color, i) => (
-                    <Button 
-                      color={color}
-                      key={i}
-                      width="48px"
-                      height="48px"
-                      pickColor={() => this.logoPickColor(color)}
-                      className="colorBox"
+                <h3>Example: facebook.com</h3>
+
+                {this.state.hasError ?
+
+                  <div>
+                    <h2>Sorry, we didn't find your logo</h2>
+                    <h3>But you can choose a color for your card from this selection:</h3>
+                    <Colors
+                      colors={this.state.colors}
+                      pickColor={this.logoPickColor}
+                      bounce={this.state.bounce}
+                      onAnimationEnd={() => this.setState({ bounce: false })}
+                      generatePalette={this.generatePalette}
                     />
-                  ))}
-              </div>
+                  </div>
+
+                  :
+
+                  <div className="logoPalette">
+                    {this.state.palette.map((color, i) => (
+                      <Button
+                        color={color}
+                        key={i}
+                        width="48px"
+                        height="48px"
+                        pickColor={() => this.logoPickColor(color)}
+                        className="colorBox"
+                      />
+                    ))}
+                  </div>
+                }
               </div>
             </div>
           </div>
@@ -316,9 +345,9 @@ class App extends React.Component {
               </div>
               <div className="businessCardBack" style={{ background: this.state.backsideBackground }}>
                 <div className="companyDiv">
-                  {this.state.companyURL ?
+                  {this.state.submitURL ?
                     <img
-                      src={companyURL}
+                      src={submitURL}
                       alt="Logo of the Company"
                       onError={this.onError}
                       className="companyLogo"
@@ -336,4 +365,3 @@ class App extends React.Component {
 
 export default App;
 
-//<img ref={img => this.img = img} onError={ () => this.img.src = '//logo.clearbit.com/facebook.com'} src={companyURL} className="companyLogo"/> : null}

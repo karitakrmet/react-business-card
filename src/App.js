@@ -4,23 +4,9 @@ import ColorPaletteOption from "./components/ColorPaletteOption";
 import Colors from "./components/Colors";
 import FontComboButton from "./components/FontComboButton";
 import Button from "./components/Button";
-import ColorThief from 'colorthief'
-
-
-function TextField(props) {
-  return <input {...props} />;
-}
-
-function EmailIcon(props) {
-  return (
-    <svg className={props.className} viewBox="0 0 20 20" width="30" height="30">
-      <path
-        fill={props.color}
-        d="M17.388,4.751H2.613c-0.213,0-0.389,0.175-0.389,0.389v9.72c0,0.216,0.175,0.389,0.389,0.389h14.775c0.214,0,0.389-0.173,0.389-0.389v-9.72C17.776,4.926,17.602,4.751,17.388,4.751 M16.448,5.53L10,11.984L3.552,5.53H16.448zM3.002,6.081l3.921,3.925l-3.921,3.925V6.081z M3.56,14.471l3.914-3.916l2.253,2.253c0.153,0.153,0.395,0.153,0.548,0l2.253-2.253l3.913,3.916H3.56z M16.999,13.931l-3.921-3.925l3.921-3.925V13.931z"
-      />
-    </svg>
-  );
-}
+import ColorThief from "colorthief";
+import EmailIcon from "./components/EmailIcon";
+import TextField from "./components/TextField";
 
 const fontCombos = [
   {
@@ -83,7 +69,7 @@ class App extends React.Component {
     hasError: false,
     submitURL: "",
     backsideBackground: "",
-    palette: [],
+    palette: []
   };
 
   async componentDidMount() {
@@ -99,33 +85,32 @@ class App extends React.Component {
     const fetchedColors = data.matching_colors;
     const repairedColors = fetchedColors
       .filter(colorCode => colorCode.length > 0)
-      .map(colorCode => "#" + colorCode)
+      .map(colorCode => "#" + colorCode);
     repairedColors.push("#000000", "#FFFFFF");
     this.setState({ colors: repairedColors });
-  }
+  };
 
   getDominantColors = () => {
     const colorThief = new ColorThief();
     const img = new Image();
 
-    img.crossOrigin = 'Anonymous';
-    img.src = ('https://logo.clearbit.com/' + this.state.companyURL);
+    img.crossOrigin = "Anonymous";
+    img.src = "https://logo.clearbit.com/" + this.state.companyURL;
 
-    img.addEventListener('load', () => {
+    img.addEventListener("load", () => {
       let palette = colorThief.getPalette(img, 3, 1);
-      palette.push([0, 0, 0], [255, 255, 255])
+      palette.push([0, 0, 0], [255, 255, 255]);
       //RGBA ?
       const repairedPalette = palette.map(color => {
-        return `rgb(${color})`
-      })
+        return `rgb(${color})`;
+      });
       this.setState({ palette: repairedPalette });
     });
-
-  }
+  };
 
   handleChange = e => {
-    if (e.target.name === 'companyURL') {
-      this.setState({ hasError: false })
+    if (e.target.name === "companyURL") {
+      this.setState({ hasError: false });
     }
 
     this.setState({
@@ -146,22 +131,20 @@ class App extends React.Component {
   };
 
   flipped = () => {
-    this.setState({ flipped: !this.state.flipped })
+    this.setState({ flipped: !this.state.flipped });
   };
 
   onError = () => {
-    this.setState({ hasError: true })
-  }
+    this.setState({ hasError: true });
+  };
 
   submitURL = () => {
-    this.setState({ submitURL: this.state.companyURL })
+    this.setState({ submitURL: this.state.companyURL });
     this.getDominantColors();
-  }
+  };
 
   render() {
-
-    const submitURL = "//logo.clearbit.com/" + this.state.submitURL
-
+    const submitURL = "//logo.clearbit.com/" + this.state.submitURL;
 
     return (
       <div className="main">
@@ -222,7 +205,10 @@ class App extends React.Component {
               {fontCombos.map((fontCombo, i) => (
                 <FontComboButton
                   fontComboName={fontCombo.fontComboName}
-                  checked={fontCombo.fontComboName === this.state.fontCombo.fontComboName}
+                  checked={
+                    fontCombo.fontComboName ===
+                    this.state.fontCombo.fontComboName
+                  }
                   changeFont={() => this.changeFont(fontCombo)}
                   key={i}
                 />
@@ -239,23 +225,22 @@ class App extends React.Component {
                 type="text"
                 value={this.state.companyURL}
                 onChange={this.handleChange}
-
               />
 
-              <button
-                onClick={this.submitURL}
-              >
+              <button className="submitButton" onClick={this.submitURL}>
                 Submit
               </button>
 
               <div>
                 <h3>Example: facebook.com</h3>
 
-                {this.state.hasError ?
-
+                {this.state.hasError ? (
                   <div>
                     <h2>Sorry, we didn't find your logo</h2>
-                    <h3>But you can choose a color for your card from this selection:</h3>
+                    <h3>
+                      But you can choose a color for your card from this
+                      selection:
+                    </h3>
                     <Colors
                       colors={this.state.colors}
                       pickColor={this.logoPickColor}
@@ -264,9 +249,7 @@ class App extends React.Component {
                       generatePalette={this.generatePalette}
                     />
                   </div>
-
-                  :
-
+                ) : (
                   <div className="logoPalette">
                     {this.state.palette.map((color, i) => (
                       <Button
@@ -279,17 +262,24 @@ class App extends React.Component {
                       />
                     ))}
                   </div>
-                }
+                )}
               </div>
             </div>
           </div>
         </div>
 
         <div className="rightContainer">
-
-          <div className={this.state.flipped ? 'businessCard flipped' : 'businessCard'} onClick={this.flipped}>
+          <div
+            className={
+              this.state.flipped ? "businessCard flipped" : "businessCard"
+            }
+            onClick={this.flipped}
+          >
             <div className="businessCardInner">
-              <div className="businessCardFront" style={{ backgroundColor: this.state.backgroundColor }}>
+              <div
+                className="businessCardFront"
+                style={{ backgroundColor: this.state.backgroundColor }}
+              >
                 <h1
                   className="companyChar"
                   style={{ fontFamily: fontCombos[1].primaryFont }}
@@ -344,16 +334,20 @@ class App extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="businessCardBack" style={{ background: this.state.backsideBackground }}>
+              <div
+                className="businessCardBack"
+                style={{ background: this.state.backsideBackground ? this.state.backsideBackground : "#ffffff" }}
+              >
                 <div className="companyDiv">
-                  {this.state.submitURL ?
+                  {this.state.submitURL ? (
                     <img
                       src={submitURL}
                       alt="Logo of the Company"
                       onError={this.onError}
                       className="companyLogo"
                       style={{ display: this.state.hasError ? "none" : "" }}
-                    /> : null}
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -365,4 +359,3 @@ class App extends React.Component {
 }
 
 export default App;
-

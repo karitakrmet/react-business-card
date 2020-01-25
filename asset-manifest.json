@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/react-business-card/static/css/main.764f5869.chunk.css",
-    "main.js": "/react-business-card/static/js/main.93186204.chunk.js",
-    "main.js.map": "/react-business-card/static/js/main.93186204.chunk.js.map",
+    "main.js": "/react-business-card/static/js/main.f2260493.chunk.js",
+    "main.js.map": "/react-business-card/static/js/main.f2260493.chunk.js.map",
     "runtime-main.js": "/react-business-card/static/js/runtime-main.4beb8aaf.js",
     "runtime-main.js.map": "/react-business-card/static/js/runtime-main.4beb8aaf.js.map",
     "static/js/2.07f29921.chunk.js": "/react-business-card/static/js/2.07f29921.chunk.js",
     "static/js/2.07f29921.chunk.js.map": "/react-business-card/static/js/2.07f29921.chunk.js.map",
     "index.html": "/react-business-card/index.html",
-    "precache-manifest.66ee268e396aff0020967de5d68d8c91.js": "/react-business-card/precache-manifest.66ee268e396aff0020967de5d68d8c91.js",
+    "precache-manifest.b43ba06b3144b4878b2606180b8e1da1.js": "/react-business-card/precache-manifest.b43ba06b3144b4878b2606180b8e1da1.js",
     "service-worker.js": "/react-business-card/service-worker.js",
     "static/css/main.764f5869.chunk.css.map": "/react-business-card/static/css/main.764f5869.chunk.css.map",
     "static/js/2.07f29921.chunk.js.LICENSE": "/react-business-card/static/js/2.07f29921.chunk.js.LICENSE"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.4beb8aaf.js",
     "static/js/2.07f29921.chunk.js",
     "static/css/main.764f5869.chunk.css",
-    "static/js/main.93186204.chunk.js"
+    "static/js/main.f2260493.chunk.js"
   ]
 }

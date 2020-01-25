@@ -6,7 +6,6 @@ import FontComboButton from "./components/FontComboButton";
 import Button from "./components/Button";
 import ColorThief from "colorthief";
 import EmailIcon from "./components/EmailIcon";
-import TextField from "./components/TextField";
 
 const fontCombos = [
   {
@@ -65,54 +64,53 @@ class App extends React.Component {
     emailColor: "",
     backgroundColor: "",
     flipped: false,
-    companyURL: "",
+    companyURLKeyword: "",
     hasError: false,
-    submitURL: "",
+    companyURL: "",
     backsideBackground: "",
     palette: []
   };
 
   async componentDidMount() {
     this.generatePalette();
+    document.title = "Business Card ";
   }
 
   generatePalette = async () => {
-    this.setState({ isLoading: true });
     this.setState({ bounce: true });
     const url = "http://www.colr.org/json/colors/random/7";
     const response = await fetch(url);
     const data = await response.json();
+
     const fetchedColors = data.matching_colors;
-    const repairedColors = fetchedColors
+    const hexColors = fetchedColors
       .filter(colorCode => colorCode.length > 0)
       .map(colorCode => "#" + colorCode);
-    repairedColors.push("#000000", "#FFFFFF");
-    this.setState({ colors: repairedColors });
+    hexColors.push("#000000", "#FFFFFF");
+
+    this.setState({ colors: hexColors });
   };
 
   getDominantColors = () => {
+
     const colorThief = new ColorThief();
     const img = new Image();
 
     img.crossOrigin = "Anonymous";
-    img.src = "https://logo.clearbit.com/" + this.state.companyURL;
+    img.src = "https://logo.clearbit.com/" + this.state.companyURLKeyword;
 
     img.addEventListener("load", () => {
       let palette = colorThief.getPalette(img, 3, 1);
       palette.push([0, 0, 0], [255, 255, 255]);
-      //RGBA ?
-      const repairedPalette = palette.map(color => {
+
+      const rgbPalette = palette.map(color => {
         return `rgb(${color})`;
       });
-      this.setState({ palette: repairedPalette });
+      this.setState({ palette: rgbPalette });
     });
   };
 
   handleChange = e => {
-    if (e.target.name === "companyURL") {
-      this.setState({ hasError: false });
-    }
-
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -130,106 +128,111 @@ class App extends React.Component {
     this.setState({ backsideBackground: color });
   };
 
-  flipped = () => {
+  flip = () => {
     this.setState({ flipped: !this.state.flipped });
   };
 
-  onError = () => {
-    this.setState({ hasError: true });
-  };
-
   submitURL = () => {
-    this.setState({ submitURL: this.state.companyURL });
+    this.setState({ hasError: false });
+    this.setState({ companyURL: "//logo.clearbit.com/" + this.state.companyURLKeyword });
     this.getDominantColors();
   };
 
   render() {
-    const submitURL = "//logo.clearbit.com/" + this.state.submitURL;
+
 
     return (
       <div className="main">
         <div className="sidebar-inner">
           <div className={this.state.flipped ? "sidebar hidden" : "sidebar"}>
-            <h2>Details</h2>
+            
+            <section>
+              <h2>Details</h2>
 
-            <div className="textFields">
-              <TextField
-                className="textFieldInput"
-                name="fullName"
-                placeholder="Your Name"
-                value={this.state.fullName}
-                onChange={this.handleChange}
-              />
-              <TextField
-                className="textFieldInput"
-                name="speciality"
-                placeholder="Field or Speciality"
-                value={this.state.speciality}
-                onChange={this.handleChange}
-              />
-              <TextField
-                className="textFieldInput"
-                name="companyName"
-                placeholder="Name of the Company"
-                value={this.state.companyName}
-                onChange={this.handleChange}
-              />
-              <TextField
-                className="textFieldInput"
-                name="eMail"
-                placeholder="E-mail Address"
-                value={this.state.eMail}
-                onChange={this.handleChange}
-              />
-            </div>
-
-            <ColorPaletteOption
-              coloredOptions={coloredOptions}
-              // Change state coloredOption to selectedColorOption
-              selectedColorOption={this.state.coloredOption}
-              handleChange={this.handleChange}
-              name="coloredOption"
-            />
-
-            <Colors
-              colors={this.state.colors}
-              pickColor={this.pickColor}
-              bounce={this.state.bounce}
-              onAnimationEnd={() => this.setState({ bounce: false })}
-              generatePalette={this.generatePalette}
-            />
-
-            <h2>Fonts</h2>
-
-            <div>
-              {fontCombos.map((fontCombo, i) => (
-                <FontComboButton
-                  fontComboName={fontCombo.fontComboName}
-                  checked={
-                    fontCombo.fontComboName ===
-                    this.state.fontCombo.fontComboName
-                  }
-                  changeFont={() => this.changeFont(fontCombo)}
-                  key={i}
+              <div className="textFields">
+                <input
+                  className="textFieldInput"
+                  name="fullName"
+                  placeholder="Your Name"
+                  value={this.state.fullName}
+                  onChange={this.handleChange}
                 />
-              ))}
-            </div>
+                <input
+                  className="textFieldInput"
+                  name="speciality"
+                  placeholder="Field or Speciality"
+                  value={this.state.speciality}
+                  onChange={this.handleChange}
+                />
+                <input
+                  className="textFieldInput"
+                  name="companyName"
+                  placeholder="Name of the Company"
+                  value={this.state.companyName}
+                  onChange={this.handleChange}
+                />
+                <input
+                  className="textFieldInput"
+                  name="eMail"
+                  placeholder="E-mail Address"
+                  value={this.state.eMail}
+                  onChange={this.handleChange}
+                />
+              </div>
+            </section>
+
+            <section>
+              <ColorPaletteOption
+                coloredOptions={coloredOptions}
+                // Change state coloredOption to selectedColorOption
+                selectedColorOption={this.state.coloredOption}
+                handleChange={this.handleChange}
+                name="coloredOption"
+              />
+
+              <Colors
+                colors={this.state.colors}
+                pickColor={this.pickColor}
+                bounce={this.state.bounce}
+                onAnimationEnd={() => this.setState({ bounce: false })}
+                generatePalette={this.generatePalette}
+              />
+            </section>
+
+            <section>
+              <h2>Fonts</h2>
+
+              <div>
+                {fontCombos.map((fontCombo, i) => (
+                  <FontComboButton
+                    fontComboName={fontCombo.fontComboName}
+                    checked={
+                      fontCombo.fontComboName ===
+                      this.state.fontCombo.fontComboName
+                    }
+                    changeFont={() => this.changeFont(fontCombo)}
+                    key={i}
+                  />
+                ))}
+              </div>
+            </section>
+
+            <h2>Click on a card to flip it</h2>
+
           </div>
           <div className={this.state.flipped ? "sidebar" : "sidebar hidden"}>
             <div>
               <h2>Logo</h2>
               <input
                 className="textFieldInput"
-                name="companyURL"
+                name="companyURLKeyword"
                 placeholder="Company Website"
                 type="text"
-                value={this.state.companyURL}
+                value={this.state.companyURLKeyword}
                 onChange={this.handleChange}
               />
 
-              <button className="submitButton" onClick={this.submitURL}>
-                Submit
-              </button>
+              <button className="submitButton" onClick={this.submitURL}>Submit</button>
 
               <div>
                 <h3>Example: facebook.com</h3>
@@ -273,7 +276,7 @@ class App extends React.Component {
             className={
               this.state.flipped ? "businessCard flipped" : "businessCard"
             }
-            onClick={this.flipped}
+            onClick={this.flip}
           >
             <div className="businessCardInner">
               <div
@@ -339,13 +342,12 @@ class App extends React.Component {
                 style={{ background: this.state.backsideBackground ? this.state.backsideBackground : "#ffffff" }}
               >
                 <div className="companyDiv">
-                  {this.state.submitURL ? (
+                  {this.state.companyURL && !this.state.hasError ? (
                     <img
-                      src={submitURL}
+                      src={this.state.companyURL}
                       alt="Logo of the Company"
-                      onError={this.onError}
+                      onError={() => this.setState({ hasError: true })}
                       className="companyLogo"
-                      style={{ display: this.state.hasError ? "none" : "" }}
                     />
                   ) : null}
                 </div>

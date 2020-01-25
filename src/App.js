@@ -78,7 +78,7 @@ class App extends React.Component {
 
   generatePalette = async () => {
     this.setState({ bounce: true });
-    const url = "/json/colors/random/7";
+    const url = "/colors";
     const response = await fetch(url);
     const data = await response.json();
 

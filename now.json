@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/api/colr", "destination": "http://www.colr.org" }
+  ]
+}

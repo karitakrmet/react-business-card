@@ -1,1 +1,1 @@
-https://karitakrmet.github.io/react-business-card/
+https://react-business-card.now.sh/

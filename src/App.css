@@ -308,6 +308,8 @@ input:focus {
 
 .companyLogo {
     position: absolute;
+    width: 50%;
+    height: auto;
 }
 
 .businessCard.flipped .businessCardInner {

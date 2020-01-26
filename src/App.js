@@ -217,7 +217,7 @@ class App extends React.Component {
               </div>
             </section>
 
-            <h2>Click on a card to flip it</h2>
+            <h2>Click on the card to flip it</h2>
 
           </div>
           <div className={this.state.flipped ? "sidebar" : "sidebar hidden"}>

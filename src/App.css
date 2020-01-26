@@ -308,16 +308,11 @@ input:focus {
 
 .companyLogo {
     position: absolute;
-    height: 100%;
-    width: auto;
 }
 
 .businessCard.flipped .businessCardInner {
     transform: rotateY(180deg);
 }
-
-
-/*font color transition: all 0.6 ease; */
 
 .leftTop {
     word-break: break-word;
